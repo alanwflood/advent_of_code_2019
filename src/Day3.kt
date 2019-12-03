@@ -10,7 +10,7 @@ class Day3 {
 
     val startingPoint = Point(0, 0)
 
-    fun toPoints(data: List<LineOperation>): MutableList<Point> {
+    private fun toPoints(data: List<LineOperation>): MutableList<Point> {
         var current = Point(0, 0)
         val points = mutableListOf<Point>()
 
@@ -34,17 +34,17 @@ class Day3 {
         return points
     }
 
-    fun findNearestPoint(intersections: Set<Point>): Point {
+    private fun findNearestPoint(intersections: Set<Point>): Point {
         return intersections.minBy { it -> it.manhattan(startingPoint) }!!
     }
 
-    fun getPoints(data: List<List<LineOperation>>): List<List<Point>> {
+    private fun getPoints(data: List<List<LineOperation>>): List<List<Point>> {
         return data.map { toPoints(it) }
     }
 
-    fun getIntersections(wireA: List<Point>, wireB: List<Point>): Set<Point> = wireA.intersect(wireB)
+    private fun getIntersections(wireA: List<Point>, wireB: List<Point>): Set<Point> = wireA.intersect(wireB)
 
-    fun getWires(wireData: List<String>): List<List<LineOperation>> {
+    private fun getWires(wireData: List<String>): List<List<LineOperation>> {
         return wireData.map { wire ->
             wire.split(",").map {
                 LineOperation(it[0], it.substring(1).toInt())
@@ -69,8 +69,8 @@ class Day3 {
                 .filter { intersections.contains(it.first) }
                 .toMap()
         }.let { (first, second) ->
-            first.map {
-                it.value + second.getValue(it.key)
+            first.map {(point, distance) ->
+                distance + second.getValue(point)
             }.min()!!
         }
     }
